@@ -59,3 +59,57 @@ export interface IProductItem {
     getCounterProducts: () => number;
     getSumAllProducts: () => number;
   }
+
+  export interface IActions {
+    onClick: (event: MouseEvent) => void;
+  }
+
+  export interface ICard {
+    text: HTMLElement;
+    button: HTMLElement;
+    render(data: IProductItem): HTMLElement;
+  }
+
+  export interface IOrder {
+    formOrder: HTMLFormElement;
+    buttonAll: HTMLButtonElement[];
+    paymentSelection: String;
+    formErrors: HTMLElement;
+    render(): HTMLElement;
+  }
+
+  export interface IContacts {
+    formContacts: HTMLFormElement;
+    inputAll: HTMLInputElement[];
+    buttonSubmit: HTMLButtonElement;
+    formErrors: HTMLElement;
+    render(): HTMLElement;
+  }
+
+  export interface IBasketItem {
+    basketItem: HTMLElement;
+      index:HTMLElement;
+      title: HTMLElement;
+      price: HTMLElement;
+      buttonDelete: HTMLButtonElement;
+      render(data: IProductItem, item: number): HTMLElement;
+  }
+
+  export interface IBasket {
+    basket: HTMLElement;
+    title: HTMLElement;
+    basketList: HTMLElement;
+    button: HTMLButtonElement;
+    basketPrice: HTMLElement;
+    headerBasketButton: HTMLButtonElement;
+    headerBasketCounter: HTMLElement;
+    renderHeaderBasketCounter(value: number): void;
+    renderSumAllProducts(sumAll: number): void;
+    render(): HTMLElement;
+  }
+
+  export interface IModal {
+    open(): void;
+    close(): void;
+    render(): HTMLElement
+  }
