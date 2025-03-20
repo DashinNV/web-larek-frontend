@@ -17,10 +17,12 @@ export class BasketModel implements IBasketModel {
 
 // добавить товар в корзину
 addProductToBasket(data: IProductItem): void {
+  data.selected = true;
   this._basketProducts.push(data);
 }
 
 deleteProductFromBasket(item: IProductItem): void {
+  item.selected = false;
   this._basketProducts = this._basketProducts.filter(product => product !== item);
 }
 

@@ -10,19 +10,29 @@ export class CardPreview extends Card implements ICard {
     super(template, events, actions);
     this.text = ensureElement<HTMLElement>('.card__text', this._cardElement);
     this.button = ensureElement<HTMLElement>('.card__button', this._cardElement);
-    this.button.addEventListener('click', () => { this.events.emit('card:addBasket')});
+    this.button.addEventListener('click', () => {
+      if (this.button.textContent === 'Убрать') {
+        
+      } else {
+        this.events.emit('card:addBasket');
+      }
+    });
   }
   
-  private notSale(data:IProductItem) {
-    if(data.price) {
+  private updateButtonState(data: IProductItem) {
+    if (data.price) {
       this.button.removeAttribute('disabled');
-      return 'Купить'
+      if (data.selected) {
+        return 'Убрать';
+      } else {
+        return 'Купить';
+      }
     } else {
-      this.button.setAttribute('disabled', 'true')
-      return 'Не продается'
+      this.button.setAttribute('disabled', 'true');
+      return 'Не продается';
     }
   }
-  
+
   render(data: IProductItem): HTMLElement {
     this._cardCategory.textContent = data.category;
     this.cardCategory = data.category;
@@ -31,7 +41,7 @@ export class CardPreview extends Card implements ICard {
     this._cardImage.alt = this._cardTitle.textContent;
     this._cardPrice.textContent = this.setPrice(data.price);
     this.text.textContent = data.description;
-    this.button.textContent = this.notSale(data);
+    this.button.textContent = this.updateButtonState(data);
     return this._cardElement;
   }
 }
