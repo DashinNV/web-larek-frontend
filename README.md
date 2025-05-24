@@ -169,7 +169,7 @@ type TCustometInfo = Pick<IOrder, 'email' | 'phone'>
 - `category:` HTMLElement - элемент для отображения категории товара.
 - `image:` HTMLImageElement - элемент изображения товара.
 - `product:` IProductItem - объект с данными товара.
-- `events:` EventEmitter -объект для управления пользовательскими событиями.
+- `events:` EventEmitter - объект для управления пользовательскими событиями.
 
 Методы:
 - `constructor(prod: IProductItem, broker: EventEmitter)` - инициализирует экземпляр класса, клонирует шаблон карточки, находит необходимые элементы внутри шаблона, сохраняет данные товара и объект событий, вызывает обновление отображения и добавление обработчиков.
@@ -178,18 +178,36 @@ type TCustometInfo = Pick<IOrder, 'email' | 'phone'>
 ### _Класс `DetailedProductCardView`_ 
 Управляет отображением подробной карточки товара в модальном окне.
 Поля класса:
-- `template:` HTMLElement -
-- `image:` HTMLImageElement -
-- `category:` HTMLElement -
-- `title:` HTMLElement -
-- `description:` HTMLElement -
-- `price:` HTMLElement -
-- `submitButton:` HTMLButtonElement -
-- `id:` string -
-- `events:` EventEmitter -
+- `template:` HTMLElement - корневой элемент карточки, клонированный из HTML-шаблона.
+- `image:` HTMLImageElement - элемент для отображения изображения товара.
+- `category:` HTMLElement - элемент для отображения категории товара.
+- `title:` HTMLElement - элемент для отображения названия товара.
+- `description:` HTMLElement - HTMLElement - элемент для отображения описания товара.
+- `price:` HTMLElement -  - элемент для отображения цены товара.
+- `submitButton:` HTMLButtonElement - элемент для отображения кнопки, которая используется для добавления товара в "Корзину". 
+- `id:` string - уникальный идентификатор товара, используется для взаимодействия с "Корзиной" и другими компонентами.
+- `events:` EventEmitter - объект для управления пользовательскими событиями.
 
 Методы:
-- `constructor(product: IProductItem, broker: EventEmitter)` - 
+- `constructor(prod: IProductItem, broker: EventEmitter)` - инициализирует экземпляр класса, клонирует шаблон карточки, находит необходимые элементы внутри шаблона, сохраняет данные товара и объект событий, вызывает обновление отображения и добавление обработчиков.
+- `getButtonText()` - возвращает текст на кнопке.
+- `setButtonText()` - устанавливает текст на кнопке.
+
+### _Класс `Modal`_
+Управляет отображением модального окна, обеспечивая инкапсуляцию логики, связанной с открытием, закрытием и изменением содержимого окна.
+Поля класса:
+- `modalContainer:` HTMLElement - хранит ссылку на контейнер модального окна.
+- `modalContent:` HTMLElement - хранит ссылку на элемент, в который будет помещено содержимое модального окна.
+- `content:` HTMLElement - элемент для отображения содержимого модального окна.
+- `submitButton:` HTMLButtonElement - кнопка 
+- `closeButton:` HTMLButtonElement - кнопка закрытия модального окна.
+
+Методы:
+- `constructor()` - инициализирует экземпляр класса.
+- `setContent(content: HTMLElement)` - устанавливает содержимое модального окна.
+- `open()` - открывает модальное окно и добавляет обработчик событий.
+- `close()` - закрывает модальное окно, очищает его содержимое и удаляет обработчик событий.
+
 
 ### _Класс `BasketView`_
 Управляет отображением данных модального окна корзины товаров.
@@ -249,3 +267,8 @@ type TCustometInfo = Pick<IOrder, 'email' | 'phone'>
 
 Методы:
 - `constructor(broker: EventEmitter)` - 
+
+## Описание событий
+
+### Обработчик события открытие модального окна карточки товара product:open
+### Обработчик события добавление карточки товара в "Корзину" product:addBasket
