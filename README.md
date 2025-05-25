@@ -260,13 +260,14 @@ type TCustometInfo = Pick<IOrder, 'email' | 'phone'>
 ### _Класс `OrderIsPlacedView`_ 
 Управляет отображением удачного заказа в модальном окне.
 Поля класса:
-- `template:` HTMLElement -
-- `submitButton:` HTMLButtonElement -
-- `total:` HTMLElement -
-- `events:` EventEmitter -
+- `template:` HTMLElement - корневой элемент модального окна, клонированный из HTML-шаблона.
+- `submitButton:` HTMLButtonElement - элемент для отображения кнопки, которая используется для зарытия модального окна. 
+- `total:` HTMLElement - элемент для отображения общей суммы заказа.
+- `events:` EventEmitter - объект для управления пользовательскими событиями.
 
 Методы:
 - `constructor(broker: EventEmitter)` - 
+инициализирует экземпляр класса, клонирует шаблон модального окна, находит необходимые элементы внутри шаблона и добавляет обработчик.
 
 ## Описание событий
 

@@ -13,7 +13,7 @@ export class DetailedProductCardView {
     public id: string;
     private events: EventEmitter;
 
-    constructor(product: IProductItem, broker: EventEmitter) {
+    constructor(prod: IProductItem, broker: EventEmitter) {
         this.events = broker;
         this.template = cloneTemplate('#card-preview');
 
@@ -24,20 +24,18 @@ export class DetailedProductCardView {
         this.price = ensureElement<HTMLElement>('.card__price', this.template);
         this.submitButton = ensureElement<HTMLButtonElement>('.button', this.template);
 
-        this.id = product.id;
-        this.image.src = product.image;
-        this.category.textContent = product.category;
+        this.id = prod.id;
+        this.image.src = prod.image;
+        this.category.textContent = prod.category;
 
-        this.setCategoryClass(product.category);
+        this.setCategoryClass(prod.category);
 
-        this.title.textContent = product.title;
-        this.description.textContent = product.description;
+        this.title.textContent = prod.title;
+        this.description.textContent = prod.description;
 
-         this.setPriceAndButtonState(product.price);
+        this.setPriceAndButtonState(prod.price);
 
-        this.submitButton.addEventListener('click', () =>
-            this.events.emit('product:addBasket', this)
-        );
+        this.submitButton.addEventListener('click', this.handleCloseClick.bind(this));
     }
 
     private setCategoryClass(category: string) {
@@ -59,6 +57,11 @@ export class DetailedProductCardView {
         } else {
             this.price.textContent = `${price} синапсов`;
         }
+    }
+
+    private handleCloseClick(evt: MouseEvent) {
+        evt.preventDefault();
+        this.events.emit('product:addBasket');
     }
 
     public getButtonText() {

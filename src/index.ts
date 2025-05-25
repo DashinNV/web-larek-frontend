@@ -7,8 +7,9 @@ import { Order } from './components/model/Order';
 import { Basket } from './components/model/Basket';
 import { IProductItem } from './types';
 import { ProductCardView } from './components/view/ProductCardView';
-import { Modal } from './components/view/Modal';
+import { Modal } from './components/view/ModalView';
 import { DetailedProductCardView } from './components/view/DetailedProductCardView';
+import { OrderInPlacedView } from './components/view/OrderInPlacedView';
 
 const order = new Order;
 const basket = new Basket;
@@ -19,6 +20,7 @@ const productsItemList = new ProductsItemList();
 const gallery: HTMLElement = document.querySelector('.gallery');
 const modal: Modal = new Modal();
 const detailedProductsCardView: DetailedProductCardView[] = [];
+const orderInPlacedView = new OrderInPlacedView(events);
 
 api.get('/product')
 	.then((data: ApiListResponse<IProductItem>) => {
@@ -43,4 +45,12 @@ api.get('/product')
 
 	events.on('product:addBasket', () => {
 		console.log('Продукт добавлен в корзину');
-	  });
+	});
+
+	events.on('success:close', () => {
+		console.log('Заказ оформлен успешно')
+	});
+
+	// orderInPlacedView.total.textContent = 'Списано ХХХ синапсов';
+ 	// modal.setContent(orderInPlacedView.template);
+	// modal.open();
