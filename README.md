@@ -145,9 +145,16 @@ type TCustometInfo = Pick<IOrder, 'email' | 'phone'>
 
 ### _Класс `Order`_ 
 Управляет данными заказа и выполняет проверку валидности ввода пользователя.
+Поля класса:
+- `address` - хранит адрес заказчика.
+- `email` - хранит адрес электронной почты заказчика.
+- `phone` - хранит номер телефона заказчика.
 
 Методы:
-- `checkValidity` - метод проверяет валидность ввода пользователя.
+- `validationAddress` - метод выполняет валидацию адреса. 
+- `validationPyment` - метод выполняет валидацию методов платежа.
+- `validationEmail` - метод проверяет валидацио адреса электронной почты.
+- `validationPhone` - метод проверяет валидацию номера телефона.
 
 ### _Класс `Basket`_ 
 Управляет данными корзины товаров и считает общую стоимость заказа. Он позволяет добавлять товары в корзину, удалять товары из корзины и очищать корзину.
@@ -212,50 +219,75 @@ type TCustometInfo = Pick<IOrder, 'email' | 'phone'>
 ### _Класс `BasketView`_
 Управляет отображением данных модального окна корзины товаров.
 Поля класса:
-- `template:` HTMLElement -
-- `index:` HTMLElement -
-- `title:` HTMLElement -
-- `price:` number -
-- `priceItem:` HTMLElement -
-- `itemDelete:` HTMLButtonElement -
-- `id:` string -
-- `events:` EventEmitter -
+- `template:` HTMLElement -  инициализирует экземпляр класса, клонирует шаблон модального окна, находит необходимые элементы внутри шаблона и добавляет обработчик.
+- `ul:` HTMLElement - элемент списка для отображение товаров в корзине.
+- `totalPrice:` HTMLElement - элемент для отображения общей стоимости товаров в корзине.
+- `basketSubmitButton:` HTMLButtonElement - элемент для отображени кнопки отправки заказа.
+- `events:` EventEmitter - EventEmitter - объект для управления пользовательскими событиями.
 
 Методы:
-- `constructor(broker: EventEmitter)` - 
+- `constructor(broker: EventEmitter)` - инициализирует экземпляр класса, клонирует шаблон модального окна, находит необходимые элементы внутри шаблона и добавляет обработчик.
+- `set list(content: BasketItem[])` - сеттер для обновления содержимого корзины.
+- `set total()` - сеттер для обновления общей стоимости.
+- `get total()` - геттер для получения общей стоимости.
+- `setUl(elem: HTMLElement)`- метод для добавления элемента в список.
+- `render()` - метод дл обновления шаблона корзины.
+
+### _Класс `BasketItemView`_
+Управляет отображением данных модального окна элемента корзины товаров.
+Поля класса:
+- `template:` HTMLElement -  инициализирует экземпляр класса, клонирует шаблон модального окна, находит необходимые элементы внутри шаблона и добавляет обработчик.
+- `index:` HTMLElement - элемент для отображения индекса товара в корзине.  
+- `title:` HTMLElement - элемент для отображения названия товара в корзине.
+- `price:` number - содержит цену товара в корзине.
+- `priceElement:` HTMLElement - элемент для отображения цены товара вкорзине.
+- `buttonDelete:` HTMLButtonElement - элемент для отображени кнопки удаления товара из корзины.
+- `id:` streeng -  содержит уникальный идентификатор товара.
+- `events:` EventEmitter - EventEmitter - объект для управления пользовательскими событиями.
+
+Методы:
+- `constructor(broker: EventEmitter)` - инициализирует экземпляр класса, клонирует шаблон модального окна, находит необходимые элементы внутри шаблона и добавляет обработчик.
 
 ### _Класс `BillingView`_ 
 Управляет отображением содержимого модального окна и позволяет принять от пользователя метод оплаты и адрес.
 Поля класса:
-- `template:` HTMLElement -
-- `submitButton:` HTMLButtonElement -
-- `buttonSpan:` HTMLElement -
-- `input:` HTMLElement -
-- `inputSpan:` HTMLInputElement -
-- `paymentMethod:` HTMLInputElement -
-- `address:` string -
-- `events:` EventEmitter -
+- `template:` HTMLElement - корневой элемент модального окна, клонированный из HTML-шаблона.
+- `nextButton:` HTMLButtonElement - элемент для отображени кнопки далее.
+- `buttonPayment:` HTMLButtonElement - элемент для отображения кнопок видов оплатыю.
+- `inputAddress:` HTMLElement - элемент отображения поля ввода адреса доставки.
+- `errorContainer` - элемент для отображения сообщения об ошибке.
+- `selectedPaymentMethod:` string - содержит выбранный метод оплаты.
+- `events:` EventEmitter - объект для управления пользовательскими событиями.
+
 
 Методы:
-- `constructor(broker: EventEmitter)` - 
-- `validation()` - 
+- `constructor(broker: EventEmitter)` -  инициализирует экземпляр класса, клонирует шаблон модального окна, находит необходимые элементы внутри шаблона и добавляет обработчик.
+- `validation()` - отправляет данные на проверку.
+- `setSubmitButtonState(isEnable: boolean)` - управляет внешним видом кнопок выбора методов оплаты.
+- `showError(message: string)` - отображает сообщение об ошибке.
+- `clearError()` - удаляет отображение сообщения об ошибке.
+- `clear()` - очищает форму.
 
 ### _Класс `CustomerView`_ 
 Управляет отображением содержимого модального окна и позволяет принять от пользователя номер телефона и Email.
 Поля класса:
-- `template:` HTMLElement -
-- `submitButton:` HTMLButtonElement -
-- `emailInput:` HTMLInputElement -
-- `phoneInput:` HTMLInputElement -
-- `email:` string
-- `emailSpan:` HTMLElement
-- `phone:` string
-- `phoneSpan` HTMLElement
-- `events:` EventEmitter -
+- `template:` HTMLElement - корневой элемент модального окна, клонированный из HTML-шаблона.
+- `submitButton:` HTMLButtonElement - элемент дл отображения кнопки, которая используется для сохранения данных.
+- `emailInput:` HTMLInputElement - элемент для отображения поля адреса электронной почты.
+- `phoneInput:` HTMLInputElement - элемент для отображения поля номера телефона.
+- `errorContainer` - элемент для отображения сообщения об ошибке.
+- `email:` string - содержит адрес электронной почты. 
+- `phone:` string - содержит номер телефона.
+- `events:` EventEmitter - объект для управления пользовательскими событиями.
 
 Методы:
-- `constructor(broker: EventEmitter)` - 
-- `validation()` - 
+- `constructor(brokоer: EventEmitter)` - инициализирует экземпляр класса, клонирует шаблон модального окна, находит необходимые элементы внутри шаблона и добавляет обработчик.
+- `validation()` - отправляет данные на проверку.
+- `setButtonText(text: string)`- отображает текст на кнопке.
+- `setSubmitButtonState(isEnabled: boolean)`- отображает состояние кнопки.
+- `showError(message: string)` - отображает сообщение об ошибке.
+- `clearError()` - удаляет отображение сообщения об ошибке.
+- `clear()` - очищает форму.
 
 ### _Класс `OrderIsPlacedView`_ 
 Управляет отображением удачного заказа в модальном окне.
@@ -270,6 +302,18 @@ type TCustometInfo = Pick<IOrder, 'email' | 'phone'>
 инициализирует экземпляр класса, клонирует шаблон модального окна, находит необходимые элементы внутри шаблона и добавляет обработчик.
 
 ## Описание событий
+Презентор в проекте реализован в коде основого файла index.js
 
 ### Обработчик события открытие модального окна карточки товара product:open
 ### Обработчик события добавление карточки товара в "Корзину" product:addBasket
+### Обработчик события открытия модального окна "Корзины" basket:open
+### Обработчик события добавление товара в "Корзину" basket:add
+### Обработчик события удаления товара из "Корзины" basket:delete
+### Обработчик события обновления "Корзины" basket:update
+### Обработчик события оформление покупки товара basket:invoice
+### Обработчик события валидация данных заказчика validation:customerView
+### Обработчик события сохранения данных заказа customerView:success
+### Обработчик события валидация данных биллинга validation:billingView
+### Обработчик события сохранения данных заказа billingView:success
+### Обработчик события сохранения данных заказа на сервере order:success
+### Обработчик события успешной покупки success:close

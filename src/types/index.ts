@@ -24,4 +24,4 @@ export type TBasket = Pick<IProductItem, 'id' | 'title' | 'price'>;
 
 export type TBillingInfo = Pick<IOrder, 'payment' | 'address'>
 
-export type TCustometInfo = Pick<IOrder, 'email' | 'phone'>
+export type TCustomerInfo = Pick<IOrder, 'email' | 'phone'>

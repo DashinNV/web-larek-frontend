@@ -1,6 +1,9 @@
 import { TBasket } from "../../types";
+import { cloneTemplate } from "../../utils/utils";
 
 export class Basket {
+    template: HTMLElement = cloneTemplate('#basket');
+	ul: HTMLElement = this.template.querySelector('.basket__list');
     list: TBasket[] = [];
     sum: number = 0;
 

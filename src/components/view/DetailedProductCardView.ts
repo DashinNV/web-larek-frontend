@@ -8,7 +8,7 @@ export class DetailedProductCardView {
     private category: HTMLElement;
     public title: HTMLElement;
     private description: HTMLElement;
-    private price: HTMLElement;
+    public price: HTMLElement;
     private submitButton: HTMLButtonElement;
     public id: string;
     private events: EventEmitter;
@@ -61,7 +61,7 @@ export class DetailedProductCardView {
 
     private handleCloseClick(evt: MouseEvent) {
         evt.preventDefault();
-        this.events.emit('product:addBasket');
+        this.events.emit('product:addBasket', this);
     }
 
     public getButtonText() {
